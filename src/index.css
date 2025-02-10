@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@font-face {
+  font-family: "Spartan";
+  src: url("src/assets/fonts/league-spartan-v11-latin-300.woff2")
+      format("woff2"),
+    url("src/assets/fonts/league-spartan-v11-latin-700.woff2") format("woff2"),
+    url("src/assets/fonts/league-spartan-v11-latin-regular.woff2")
+      format("woff2"),
+    url("src/assets/fonts/league-spartan-v11-latin-500.woff2") format("woff2");
+  font-weight: 300 400 500 700;
+  font-style: normal;
+}
+
+body {
+  font-family: "Spartan";
+}
