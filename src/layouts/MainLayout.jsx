@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "../components";
-import SideBar from "../components/SideBar";
+import { Navbar, SideBar } from "../components";
 
 function MainLayout() {
   return (
     <>
-      <SideBar />
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
+      <div className="flex gap-4 ">
+        <SideBar />
+        {/* <Navbar /> */}
+        <main className="w-full">
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 }
