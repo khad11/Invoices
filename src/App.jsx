@@ -11,14 +11,14 @@ function App() {
   const routes = createBrowserRouter([
     {
       path: "/",
-      elements: <MainLayout />,
+      element: <MainLayout />,
       children: [
         {
           index: true,
           element: <Home />,
         },
         {
-          path: "/product",
+          path: "/product/:id",
           element: <Product />,
         },
       ],
