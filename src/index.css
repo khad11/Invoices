@@ -131,3 +131,27 @@ body {
     background-color: #1e2139;
   }
 }
+/* main uchun bg qildim  */
+[data-theme="silentforest"] {
+  .all-bg {
+    background-color: var(--color-light-bg);
+  }
+}
+[data-theme="magicalbro"] {
+  .all-bg {
+    background-color: var(--color-darkest);
+  }
+}
+
+/* text uchun */
+
+[data-theme="silentforest"] {
+  .text-c {
+    color: var(--color-muted-blue);
+  }
+}
+[data-theme="magicalbro"] {
+  .text-c {
+    color: #ffffff;
+  }
+}
