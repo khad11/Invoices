@@ -4,18 +4,16 @@ import { useFetch } from "../hooks/useFetch";
 import { useState, useEffect } from "react";
 
 function Header({ setFilteredData }) {
-  const apiUrl = import.meta.env.VITE_API_KEY;
-  const { data } = useFetch(apiUrl);
+  const { data } = useFetch();
   const [selectedStatuses, setSelectedStatuses] = useState([]);
+
+  const filtered =
+    selectedStatuses.length > 0
+      ? data.filter((d) => selectedStatuses.includes(d.status))
+      : data;
 
   useEffect(() => {
     if (!data) return;
-
-    const filtered =
-      selectedStatuses.length > 0
-        ? data.filter((d) => selectedStatuses.includes(d.status))
-        : data;
-
     setFilteredData(filtered);
   }, [selectedStatuses, data, setFilteredData]);
 
@@ -36,7 +34,9 @@ function Header({ setFilteredData }) {
     <div className="flex justify-between items-center mb-16">
       <div>
         <h1 className="text-4xl font-bold mb-2">Invoices</h1>
-        <p className="text-gray-500">There are {data.length} total invoices</p>
+        <p className="text-gray-500">
+          There are {data ? filtered.length : 0} total invoices
+        </p>
       </div>
       <div className="flex items-center gap-4">
         <div className="dropdown mr-5">
@@ -50,9 +50,9 @@ function Header({ setFilteredData }) {
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    checked={selectedStatuses.includes(status)}
-                    onChange={() => handleFilterChange(status)}
                     className="checkbox"
+                    onChange={() => handleFilterChange(status)}
+                    checked={selectedStatuses.includes(status)}
                   />
                   {status}
                 </label>
