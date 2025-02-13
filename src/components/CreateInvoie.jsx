@@ -4,17 +4,8 @@ import { objectCreater } from "../utils/object-creater";
 
 import { MdOutlineDelete } from "react-icons/md";
 import { useRef, useState } from "react";
-// import { useEffect, useState } from "react";
 
 function CreateInvoie() {
-  //   const [state, setState] = useState({
-  //     pending: false,
-  //     draft: false,
-  //     paid: false,
-  //   });
-
-  //   useEffect(() => {}, [state]);
-
   const drawerRef = useRef(null);
   const formRef = useRef(null);
   const [items, setItems] = useState([]);
@@ -62,7 +53,6 @@ function CreateInvoie() {
     const status = submitter.dataset.status;
 
     const invoiceData = objectCreater({
-      // id: `INV-${Math.floor(1000 + Math.random() * 9000)}`,
       createdAt: new Date().toISOString().split("T")[0],
       paymentDue: data.invoiceDate,
       description: data.projectDescription,
@@ -80,8 +70,6 @@ function CreateInvoie() {
       country: data.country,
       items,
     });
-
-    console.log("Yangi Invoice:", invoiceData);
 
     try {
       const response = await fetch("http://localhost:3000/data", {
@@ -133,9 +121,9 @@ function CreateInvoie() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu list-a text-base-content min-h-full w-1/2 p-4">
+          <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
             {/* Sidebar content here */}
-            <div className="max-w-3xl mx-auto list-a p-6 rounded-lg ">
+            <div className="max-w-3xl  list-a p-6 rounded-lg  ">
               <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
               {/* Bill From */}
@@ -245,7 +233,7 @@ function CreateInvoie() {
                 </p>
               ) : (
                 items.map((item, index) => (
-                  <div key={index} className="grid grid-cols-4 gap-4">
+                  <div key={index} className="flex  gap-4">
                     <FormInput
                       name="itemName"
                       type="text"
@@ -264,18 +252,18 @@ function CreateInvoie() {
                       placeholder="156.00"
                       mainName="Price"
                     />
-                    <div className="flex flex-col mt-2">
-                      <h3 className="mb-1">Total</h3>
-                      <div className="flex items-center justify-between">
-                        <span className="px-3 py-2 flex justify-between items-center text-gray-400">
-                          123asd
-                        </span>
-                        <MdOutlineDelete
-                          className="text-3xl cursor-pointer"
-                          onClick={() => removeItem(index)}
-                        />
-                      </div>
-                    </div>
+
+                    {/* <h3 className="mb-1">Total</h3> */}
+
+                    {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
+                          {}
+                        </span> */}
+                    <button>
+                      <MdOutlineDelete
+                        className="text-3xl cursor-pointer mt-7 ml-2"
+                        onClick={() => removeItem(index)}
+                      />
+                    </button>
                   </div>
                 ))
               )}
@@ -288,29 +276,31 @@ function CreateInvoie() {
               </button>
 
               {/* Buttons */}
-              <div className="flex justify-between mt-6">
-                <button
-                  className="btn-bg py-2 px-6 rounded-lg"
-                  type="button"
-                  onClick={handleDiscard}
-                >
-                  Discard
-                </button>
-                <div className="flex gap-2">
+              <div className="pt-[30px] pb-[30px]">
+                <div className="flex justify-between mt-6">
                   <button
-                    className="bg-gray-700 text-white py-2 px-6 rounded-lg "
-                    type="submit"
-                    data-status="draft"
+                    className="btn-bg py-2 px-6 rounded-lg"
+                    type="button"
+                    onClick={handleDiscard}
                   >
-                    Save as Draft
+                    Discard
                   </button>
-                  <button
-                    className="bg-purple-600 text-white py-2 px-6 rounded-lg"
-                    type="submit"
-                    data-status="pending"
-                  >
-                    Save & Send
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      className="bg-gray-700 text-white py-2 px-6 rounded-lg "
+                      type="submit"
+                      data-status="draft"
+                    >
+                      Save as Draft
+                    </button>
+                    <button
+                      className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                      type="submit"
+                      data-status="pending"
+                    >
+                      Save & Send
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
