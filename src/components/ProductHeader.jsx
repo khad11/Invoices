@@ -6,17 +6,12 @@ function ProductHeader() {
   const { data } = useFetch();
   const { id } = useParams();
 
-  // Agar data hali kelmagan bo'lsa:
   if (!data) {
     return <div>Loading...</div>;
   }
 
-  // data massiv deb hisoblaymiz. URL'dagi id ga mos keladigan mahsulotni topamiz.
-  // E'tibor bering: useParams dan kelgan id string bo'ladi, shuning uchun
-  // massivdagi item.id ni ham stringga aylantiramiz.
   const product = data.find((item) => String(item.id) === id);
 
-  // Agar mos mahsulot topilmasa:
   if (!product) {
     return <div>Mahsulot topilmadi</div>;
   }

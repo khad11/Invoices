@@ -1,4 +1,4 @@
-import NotFounded from "./NotFounded";
+import NotFounded from "../components/NotFounded";
 import StatusBadge from "./StatusBadge";
 import { Link } from "react-router-dom";
 

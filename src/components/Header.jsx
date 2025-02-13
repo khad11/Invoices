@@ -1,7 +1,7 @@
 import { IoIosArrowDropdown } from "react-icons/io";
-import { CiCirclePlus } from "react-icons/ci";
 import { useFetch } from "../hooks/useFetch";
 import { useState, useEffect } from "react";
+import CreateInvoie from "./CreateInvoie";
 
 function Header({ setFilteredData }) {
   const { data } = useFetch();
@@ -60,10 +60,7 @@ function Header({ setFilteredData }) {
             ))}
           </ul>
         </div>
-        <div className="btn bg-blue-600 text-slate-100 flex gap-5 rounded-3xl w-[150px] ">
-          <CiCirclePlus className="w-8 h-8 " />
-          <span className="text-[12px]">New Invoice</span>
-        </div>
+        <CreateInvoie />
       </div>
     </div>
   );
