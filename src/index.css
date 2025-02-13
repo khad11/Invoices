@@ -155,3 +155,28 @@ body {
     color: #ffffff;
   }
 }
+/* button uchun  */
+
+[data-theme="silentforest"] {
+  .btn-bg {
+    color: #1e2139;
+    background-color: var(--color-light-gray);
+  }
+}
+[data-theme="magicalbro"] {
+  .btn-bg {
+    background-color: var(--color-light-bg);
+    color: #1e2139;
+  }
+}
+
+[data-theme="silentforest"] {
+  .btn-blue-bg {
+    background-color: var(--color-light-gray);
+  }
+}
+[data-theme="magicalbro"] {
+  .btn-blue-bg {
+    background-color: var(--color-dark-gray);
+  }
+}

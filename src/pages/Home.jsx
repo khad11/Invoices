@@ -6,7 +6,7 @@ import NotFounded from "../components/NotFounded";
 function Home() {
   const [filteredData, setFilteredData] = useState([]);
   return (
-    <div className="align-elements my-auto flex flex-col mt-[72px] ">
+    <div className="align-elements my-auto flex flex-col mt-[72px] h-screen overflow-y-auto ">
       <Header setFilteredData={setFilteredData} />
       {filteredData.length > 0 ? (
         <InvoicesItem filteredData={filteredData} />
