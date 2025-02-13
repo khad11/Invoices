@@ -13,7 +13,6 @@ function Product() {
     return <p>Loading...</p>;
   }
 
-  // productga tenglab olyapman id ga mos bolgan malumotni !!
   const product = data.find((fd) => fd.id === id);
 
   if (!product) {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function InvoicesItem({ filteredData }) {
   return (
-    <div>
+    <div className="h-[700px] overflow-y-auto">
       {!filteredData ? (
         <NotFounded />
       ) : (
