@@ -1,17 +1,33 @@
 import { useEffect, useState } from "react";
-const apiUrl = import.meta.env.VITE_API_KEY;
+import { queryGenerator } from "../utils/query-generator";
 
-export const useFetch = () => {
-  const [data, setData] = useState(null);
+export async function getAllData() {
+  const req = await fetch("http://localhost:3000/data");
+  if (req.status === 200) {
+    return await req.json();
+  } else {
+    throw new Error("Xatolik yuzaga keldi ! ");
+  }
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const req = await fetch(apiUrl);
-      const data = await req.json();
-      setData(data);
-    };
-    fetchData();
-  }, [apiUrl]);
+export async function getOneData(id) {
+  const req = await fetch(`http://localhost:3000/data/${id}`);
+  if (req.status === 200) {
+    return await req.json();
+  } else {
+    throw new Error("Xatolik yuzaga keldi ! ");
+  }
+}
 
-  return { data };
-};
+export async function getFilterData(filter) {
+  const req = await fetch(
+    `http://localhost:3000/data${
+      queryGenerator(filter) !== "" ? `?status=${queryGenerator(filter)}` : ""
+    }`
+  );
+  if (req.status === 200) {
+    return await req.json();
+  } else {
+    throw new Error("Xatolik yuzaga keldi ! ");
+  }
+}

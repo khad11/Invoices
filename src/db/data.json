@@ -132,12 +132,12 @@
     },
     {
       "id": "AA1449",
-      "createdAt": "2021-10-7",
+      "createdAt": "",
       "paymentDue": "2021-10-14",
       "description": "Re-branding",
-      "paymentTerms": 7,
+      "paymentTerms": "7",
       "clientName": "Mellisa Clarke",
-      "clientEmail": "mellisa.clarke@example.com",
+      "clientEmail": "mellisa.clarke@example.com2",
       "status": "pending",
       "senderAddress": {
         "street": "19 Union Terrace",
@@ -146,8 +146,8 @@
         "country": "United Kingdom"
       },
       "clientAddress": {
-        "street": "46 Abbey Row",
-        "city": "Cambridge",
+        "street": "",
+        "city": "",
         "postCode": "CB5 6EG",
         "country": "United Kingdom"
       },
@@ -260,243 +260,72 @@
       "total": 0
     },
     {
-      "id": "INV-2360",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
+      "id": "6ffe",
+      "createdAt": "2025-02-14",
+      "paymentDue": "",
+      "description": "",
+      "paymentTerms": 0,
+      "clientName": "Karimjon ",
+      "clientEmail": "karim@gmail.com",
       "status": "pending",
       "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
+        "city": "los angles",
+        "postCode": "",
+        "country": ""
       },
       "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
       },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
+      "items": [],
       "total": 0
     },
     {
-      "id": "INV-6982",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
+      "id": "ac65",
+      "createdAt": "2025-02-14",
+      "paymentDue": "",
+      "description": "",
+      "paymentTerms": 0,
+      "clientName": "",
+      "clientEmail": "",
       "status": "pending",
       "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
+        "city": "",
+        "postCode": "",
+        "country": ""
       },
       "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
       },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
+      "items": [],
       "total": 0
     },
     {
-      "id": "INV-6789",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
+      "id": "d5f0",
+      "createdAt": "2025-02-14",
+      "paymentDue": "",
+      "description": "",
+      "paymentTerms": 0,
+      "clientName": "",
+      "clientEmail": "",
       "status": "pending",
       "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
+        "city": "",
+        "postCode": "",
+        "country": ""
       },
       "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
       },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
-      "total": 0
-    },
-    {
-      "id": "INV-8132",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
-      "status": "pending",
-      "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
-      },
-      "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
-      },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
-      "total": 0
-    },
-    {
-      "id": "INV-8398",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
-      "status": "pending",
-      "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
-      },
-      "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
-      },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
-      "total": 0
-    },
-    {
-      "id": "INV-1272",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
-      "status": "pending",
-      "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
-      },
-      "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
-      },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
-      "total": 0
-    },
-    {
-      "id": "INV-1213",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
-      "status": "pending",
-      "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
-      },
-      "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
-      },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
-      "total": 0
-    },
-    {
-      "id": "INV-3553",
-      "createdAt": "2025-02-12",
-      "paymentDue": "2025-02-14",
-      "description": "sdasdf",
-      "paymentTerms": null,
-      "clientName": "hkjhj",
-      "clientEmail": "hjk@email.com",
-      "status": "pending",
-      "senderAddress": {
-        "city": "asdsadsa",
-        "postCode": "asdfasdf",
-        "country": "hkjhjk"
-      },
-      "clientAddress": {
-        "street": "dsadd",
-        "city": "s",
-        "postCode": "hkjhjk",
-        "country": "hjk"
-      },
-      "items": [
-        {
-          "name": "",
-          "quantity": 0,
-          "price": 0,
-          "total": 0
-        }
-      ],
+      "items": [],
       "total": 0
     }
   ]

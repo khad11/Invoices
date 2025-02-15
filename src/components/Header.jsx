@@ -1,11 +1,25 @@
 import { IoIosArrowDropdown } from "react-icons/io";
-import { useFetch } from "../hooks/useFetch";
+import { getAllData } from "../hooks/useFetch";
 import { useState, useEffect } from "react";
 import CreateInvoie from "./CreateInvoie";
 
 function Header({ setFilteredData }) {
-  const { data } = useFetch();
   const [selectedStatuses, setSelectedStatuses] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+    getAllData()
+      .then((res) => {
+        setData(res);
+      })
+      .catch((err) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const filtered =
     selectedStatuses.length > 0
@@ -34,9 +48,7 @@ function Header({ setFilteredData }) {
     <div className="flex justify-between items-center mb-16">
       <div>
         <h1 className="text-4xl font-bold mb-2">Invoices</h1>
-        <p className="text-gray-500">
-          There are {data ? filtered.length : 0} total invoices
-        </p>
+        <p className="text-gray-500">There are {data?.length} total invoices</p>
       </div>
       <div className="flex items-center gap-4">
         <div className="dropdown mr-5">
