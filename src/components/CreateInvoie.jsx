@@ -65,7 +65,7 @@ function CreateInvoie() {
       senderCity: data.senderCity,
       senderPostCode: data.senderPostCode,
       senderCountry: data.senderCountry,
-      street: data.streetAddress,
+      street: data.senderStreet,
       city: data.city,
       postCode: data.postCode,
       country: data.country,
@@ -123,170 +123,173 @@ function CreateInvoie() {
         <form
           ref={formRef}
           onSubmit={getFormData}
-          className="drawer-side ml-[130px]"
+          className="drawer-side ml-[103px]"
         >
           <label
             htmlFor="my-drawer"
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
-            {/* Sidebar content  */}
-            <div className="max-w-3xl  list-a p-6 rounded-lg  ">
-              <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
-              {/* Bill From */}
-              <h2 className="text-purple-600 font-semibold mb-2">Bill From</h2>
-              <FormInput
-                name="streetAddress"
-                type="text"
-                placaholder="19 Union Terrace"
-                mainName="Street Address"
-              />
+          <ul className="list-a text-base-content h-full w-[720px]">
+            <div>
+              <div className=" list-a p-6  ">
+                <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
+                {/* Bill From */}
+                <h2 className="text-purple-600 font-semibold mb-2">
+                  Bill From
+                </h2>
                 <FormInput
-                  name="senderCity"
+                  name="senderStreet"
                   type="text"
-                  placaholder="London"
-                  mainName="City"
+                  placaholder="19 Union Terrace"
+                  mainName="Street Address"
                 />
 
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <FormInput
+                    name="senderCity"
+                    type="text"
+                    placaholder="London"
+                    mainName="City"
+                  />
+
+                  <FormInput
+                    name="senderPostCode"
+                    type="text"
+                    placaholder="E1 3EZ"
+                    mainName="Post Code"
+                  />
+                  <FormInput
+                    name="senderCountry"
+                    type="text"
+                    placaholder="United Kingdom"
+                    mainName="Country"
+                  />
+                </div>
+
+                {/* Bill To */}
+                <h2 className="text-purple-600 font-semibold mt-6 mb-2">
+                  Bill To
+                </h2>
                 <FormInput
-                  name="senderPostCode"
+                  name="clientName"
                   type="text"
-                  placaholder="E1 3EZ"
-                  mainName="Post Code"
+                  placaholder="Alex Grim"
+                  mainName="Client’s Name"
                 />
                 <FormInput
-                  name="senderCountry"
+                  name="clientEmail"
+                  type="email"
+                  placaholder="alexgrim@mail.com"
+                  mainName="Clients Email"
+                />
+                <FormInput
+                  name="streetAddress"
                   type="text"
-                  placaholder="United Kingdom"
-                  mainName="Country"
+                  placaholder="84 Church Way"
+                  mainName="Street Address"
                 />
-              </div>
 
-              {/* Bill To */}
-              <h2 className="text-purple-600 font-semibold mt-6 mb-2">
-                Bill To
-              </h2>
-              <FormInput
-                name="clientName"
-                type="text"
-                placaholder="Alex Grim"
-                mainName="Client’s Name"
-              />
-              <FormInput
-                name="clientEmail"
-                type="email"
-                placaholder="alexgrim@mail.com"
-                mainName="Clients Email"
-              />
-              <FormInput
-                name="streetAddress"
-                type="text"
-                placaholder="84 Church Way"
-                mainName="Street Address"
-              />
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <FormInput
+                    name="city"
+                    type="text"
+                    placaholder="Bradford"
+                    mainName="City"
+                  />
+                  <FormInput
+                    name="postCode"
+                    type="text"
+                    placaholder="BD1 9PB"
+                    mainName="Post Code"
+                  />
+                  <FormInput
+                    name="country"
+                    type="text"
+                    placaholder="United Kingdom"
+                    mainName="Country"
+                  />
+                </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
+                {/* Invoice Date & Payment Terms */}
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <FormInput
+                    name="invoiceDate"
+                    type="date"
+                    mainName="Invoice Date"
+                  />
+                  <FormInput
+                    name="paymentTerms"
+                    type="text"
+                    placaholder="Net 30 Days"
+                    mainName="Payment Terms"
+                  />
+                </div>
+
                 <FormInput
-                  name="city"
+                  name="projectDescription"
                   type="text"
-                  placaholder="Bradford"
-                  mainName="City"
+                  placaholder="Graphic Design"
+                  mainName="Project Description"
                 />
-                <FormInput
-                  name="postCode"
-                  type="text"
-                  placaholder="BD1 9PB"
-                  mainName="Post Code"
-                />
-                <FormInput
-                  name="country"
-                  type="text"
-                  placaholder="United Kingdom"
-                  mainName="Country"
-                />
-              </div>
 
-              {/* Invoice Date & Payment Terms */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
-                <FormInput
-                  name="invoiceDate"
-                  type="date"
-                  mainName="Invoice Date"
-                />
-                <FormInput
-                  name="paymentTerms"
-                  type="text"
-                  placaholder="Net 30 Days"
-                  mainName="Payment Terms"
-                />
-              </div>
+                {/* Item List */}
+                <h2 className="text-gray-600 font-semibold mt-6 mb-2">
+                  Item List
+                </h2>
 
-              <FormInput
-                name="projectDescription"
-                type="text"
-                placaholder="Graphic Design"
-                mainName="Project Description"
-              />
+                {items.length === 0 ? (
+                  <p className="text-gray-500 text-center">
+                    Item qo‘shish uchun "Add New Item" tugmasini bosing
+                  </p>
+                ) : (
+                  items.map((item, index) => (
+                    <div key={index} className="flex  gap-4">
+                      <FormInput
+                        name="itemName"
+                        type="text"
+                        placeholder="Banner Design"
+                        mainName="Item Name"
+                      />
+                      <FormInput
+                        name="qty"
+                        type="number"
+                        placeholder="1"
+                        mainName="Qty."
+                      />
+                      <FormInput
+                        name="price"
+                        type="number"
+                        placeholder="156.00"
+                        mainName="Price"
+                      />
 
-              {/* Item List */}
-              <h2 className="text-gray-600 font-semibold mt-6 mb-2">
-                Item List
-              </h2>
+                      {/* <h3 className="mb-1">Total</h3> */}
 
-              {items.length === 0 ? (
-                <p className="text-gray-500 text-center">
-                  Item qo‘shish uchun "Add New Item" tugmasini bosing
-                </p>
-              ) : (
-                items.map((item, index) => (
-                  <div key={index} className="flex  gap-4">
-                    <FormInput
-                      name="itemName"
-                      type="text"
-                      placeholder="Banner Design"
-                      mainName="Item Name"
-                    />
-                    <FormInput
-                      name="qty"
-                      type="number"
-                      placeholder="1"
-                      mainName="Qty."
-                    />
-                    <FormInput
-                      name="price"
-                      type="number"
-                      placeholder="156.00"
-                      mainName="Price"
-                    />
-
-                    {/* <h3 className="mb-1">Total</h3> */}
-
-                    {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
+                      {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
                           {}
                         </span> */}
-                    <button>
-                      <MdOutlineDelete
-                        className="text-3xl cursor-pointer mt-7 ml-2"
-                        onClick={() => removeItem(index)}
-                      />
-                    </button>
-                  </div>
-                ))
-              )}
-              <button
-                className="w-full btn-blue-bg py-2 mt-4 rounded-lg"
-                type="button"
-                onClick={addNewItem}
-              >
-                + Add New Item
-              </button>
-
+                      <button>
+                        <MdOutlineDelete
+                          className="text-3xl cursor-pointer mt-7 ml-2"
+                          onClick={() => removeItem(index)}
+                        />
+                      </button>
+                    </div>
+                  ))
+                )}
+                <button
+                  className="w-full btn-blue-bg py-2 mt-4 rounded-lg"
+                  type="button"
+                  onClick={addNewItem}
+                >
+                  + Add New Item
+                </button>
+              </div>
               {/* Buttons */}
-              <div className="pt-[30px] pb-[30px]">
+              <div className="sticky bottom-0  btn-button left-0 p-8 w-full">
                 <div className="flex justify-between mt-6">
                   <button
                     className="btn-bg py-2 px-6 rounded-lg"
@@ -314,6 +317,7 @@ function CreateInvoie() {
                 </div>
               </div>
             </div>
+            {/* Sidebar content  */}
           </ul>
         </form>
       </div>

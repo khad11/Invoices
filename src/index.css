@@ -121,6 +121,10 @@ body {
   .list-a:hover {
     background-color: #ffffff;
   }
+
+  .btn-button {
+    background-color: #f6f7fb;
+  }
 }
 [data-theme="magicalbro"] {
   .list-a {
@@ -129,6 +133,10 @@ body {
   }
   .list-a:hover {
     background-color: #1e2139;
+  }
+
+  .btn-button {
+    background-color: #141625;
   }
 }
 /* main uchun bg qildim  */

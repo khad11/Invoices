@@ -120,7 +120,7 @@ function EditInvoice() {
         </div>
         <form
           ref={formRef}
-          className="drawer-side ml-[130px] "
+          className="drawer-side ml-[100px] "
           onSubmit={updateInvoice}
         >
           <label
@@ -129,9 +129,9 @@ function EditInvoice() {
             className="drawer-overlay"
           ></label>
           <div>
-            <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
+            <ul className=" list-a text-base-content h-full w-[720px] ">
               {/* Sidebar content here */}
-              <div className="max-w-3xl  list-a p-6 rounded-lg  ">
+              <div className="max-w-2xl  list-a p-6 rounded-lg  ">
                 <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
                 {/* Bill From */}
@@ -308,26 +308,26 @@ function EditInvoice() {
                   + Add New Item
                 </button>
               </div>
+              <div className=" sticky bottom-0  btn-button left-0 p-8  w-full ">
+                <div className="flex gap-2 justify-end  ">
+                  <button
+                    className="btn-bg py-2 px-6 rounded-lg"
+                    type="button"
+                    onClick={() => (drawerRef.current.checked = false)}
+                  >
+                    cancel
+                  </button>
+                  <button
+                    className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                    type="submit"
+                    data-status="pending"
+                  >
+                    Save Change
+                  </button>
+                </div>
+              </div>
             </ul>
             {/* Buttons */}
-            <div className="pt-[30px] pb-[30px] ">
-              <div className="flex justify-end  gap-2 mt-6 sticky bottom-0 left-0 ">
-                <button
-                  className="btn-bg py-2 px-6 rounded-lg"
-                  type="button"
-                  onClick={() => (drawerRef.current.checked = false)}
-                >
-                  cancel
-                </button>
-                <button
-                  className="bg-purple-600 text-white py-2 px-6 rounded-lg"
-                  type="submit"
-                  data-status="pending"
-                >
-                  Save Change
-                </button>
-              </div>
-            </div>
           </div>
         </form>
       </div>
