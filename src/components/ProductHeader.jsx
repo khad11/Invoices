@@ -1,22 +1,40 @@
 import { useParams } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
+import { getOneData } from "../hooks/useFetch";
 import StatusBadge from "./StatusBadge";
 import DeleteModal from "./AlertModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import EditInvoice from "./EditInvoice";
 
 function ProductHeader() {
-  const { data } = useFetch();
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  if (!data) {
-    return <div>Loading...</div>;
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+
+    getOneData(id)
+      .then((res) => setData(res))
+      .catch((err) => {
+        console.error("Xatolik yuz berdi:", err);
+        setError("Ma'lumot yuklashda xatolik!");
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return <div>Mahsulot yuklanmoqda...</div>;
   }
 
-  const product = data.find((item) => String(item.id) === id);
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
 
-  if (!product) {
-    return <div>Mahsulot topilmadi</div>;
+  if (!data) {
+    return <div>Ma'lumot topilmadi</div>;
   }
 
   const handleDelete = async () => {
@@ -38,10 +56,10 @@ function ProductHeader() {
   return (
     <div className="align-elements flex items-center justify-between px-[32px] py-[24px] list-a rounded-lg mb-[24px]">
       <div className="flex gap-2 items-center">
-        status :<StatusBadge status={product.status} />
+        status: <StatusBadge status={data?.status} />
       </div>
       <div className="flex gap-[8px]">
-        <button className="btn rounded-3xl">Edit</button>
+        <EditInvoice />
         <button
           className="btn btn-error rounded-3xl"
           onClick={() => setIsModalOpen(true)}
@@ -59,7 +77,7 @@ function ProductHeader() {
           setIsModalOpen(false);
           handleDelete();
         }}
-        invoiceId={product.id}
+        invoiceId={data?.id} // `product.id` o‘rniga `data?.id`
       />
     </div>
   );

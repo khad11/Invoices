@@ -1,107 +1,82 @@
-import { CiCirclePlus } from "react-icons/ci";
-import FormInput from "./FormInput";
-import { objectCreater } from "../utils/object-creater";
-
+import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineDelete } from "react-icons/md";
-import { useRef, useState } from "react";
+import FormInput from "./FormInput";
+import { getOneData } from "../hooks/useFetch";
+import { useParams } from "react-router-dom";
 
-function CreateInvoie() {
+function EditInvoice() {
+  const { id } = useParams();
   const drawerRef = useRef(null);
   const formRef = useRef(null);
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
 
-  // discard button
-  const handleDiscard = () => {
-    if (drawerRef.current) {
-      drawerRef.current.checked = false;
+  const updateInvoice = async (e) => {
+    e.preventDefault(); // Formani default refresh qilishdan to'xtatamiz
+
+    const updatedData = {
+      clientName: e.target.clientName.value,
+      clientEmail: e.target.clientEmail.value,
+      clientAddress: {
+        street: e.target.streetAddress.value,
+        city: e.target.city.value,
+        postCode: e.target.postCode.value,
+        country: e.target.country.value,
+      },
+      createdAt: e.target.invoiceDate.value,
+      paymentTerms: e.target.paymentTerms.value,
+      description: e.target.projectDescription.value,
+      items,
+    };
+
+    try {
+      const response = await fetch(`http://localhost:3000/data/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ma'lumotni yangilashda xatolik!");
+      }
+
+      alert("Invoice muvaffaqiyatli yangilandi!");
+    } catch (error) {
+      console.error(error);
+      alert("Xatolik yuz berdi!");
     }
-    if (formRef.current) {
-      formRef.current.reset();
-    }
-    setItems([]);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    getOneData(id)
+      .then((res) => {
+        setData(res);
+        setItems(res.items);
+      })
+      .catch((err) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>loading...</p>;
+  }
 
   // add new item button
   const addNewItem = () => {
     setItems([...items, { name: "", qty: 1, price: 0 }]);
   };
 
-  // remove icon
   const removeItem = (index) => {
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems);
   };
-
-  async function getFormData(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    console.log(formData);
-    const data = Object.fromEntries(formData.entries());
-
-    const itemNames = formData.getAll("itemName");
-    const quantities = formData.getAll("qty");
-    const prices = formData.getAll("price");
-
-    const items = itemNames.map((name, index) => ({
-      name,
-      quantity: Number(quantities[index]),
-      price: Number(prices[index]),
-      total: Number(prices[index]) * Number(quantities[index]),
-    }));
-    const submitter = e.nativeEvent.submitter;
-    const status = submitter.dataset.status;
-
-    if (
-      !data.clientName ||
-      !data.clientEmail ||
-      !data.invoiceDate ||
-      !data.paymentTerms ||
-      !data.projectDescription ||
-      items.length === 0
-    ) {
-      alert("Iltimos, barcha maydonlarni to‘ldiring!");
-      return;
-    }
-
-    const invoiceData = objectCreater({
-      createdAt: new Date().toISOString().split("T")[0],
-      paymentDue: data.invoiceDate,
-      description: data.projectDescription,
-      paymentTerms: data.paymentTerms,
-      clientName: data.clientName,
-      clientEmail: data.clientEmail,
-      status,
-      senderStreet: data.senderStreet,
-      senderCity: data.senderCity,
-      senderPostCode: data.senderPostCode,
-      senderCountry: data.senderCountry,
-      street: data.streetAddress,
-      city: data.city,
-      postCode: data.postCode,
-      country: data.country,
-      items,
-    });
-
-    try {
-      const response = await fetch("http://localhost:3000/data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(invoiceData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Serverga ma'lumot yuborishda xatolik!");
-      }
-
-      const result = await response.json();
-      console.log("Yangi Invoice qo‘shildi:", result);
-    } catch (error) {
-      console.error("Xatolik:", error);
-    }
-  }
 
   return (
     <div>
@@ -112,22 +87,18 @@ function CreateInvoie() {
           type="checkbox"
           className="drawer-toggle"
         />
-
         <div className="drawer-content">
           <label
             htmlFor="my-drawer"
-            className="btn bg-[#7C5DFA] hover:bg-[#6349ca] text-white w-40 rounded-full flex justify-between pl-2 pr-6 drawer-button"
+            className="btn  rounded-full flex   drawer-button"
           >
-            <span className="rounded-full w-6 h-6 bg-white">
-              <CiCirclePlus className="w-full h-full text-[#7C5DFA] font-bold" />
-            </span>
-            <p> New Invoice</p>
+            <p> Edit</p>
           </label>
         </div>
         <form
           ref={formRef}
-          onSubmit={getFormData}
-          className="drawer-side ml-[130px]"
+          className="drawer-side ml-[130px] "
+          onSubmit={updateInvoice}
         >
           <label
             htmlFor="my-drawer"
@@ -135,7 +106,7 @@ function CreateInvoie() {
             className="drawer-overlay"
           ></label>
           <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
-            {/* Sidebar content  */}
+            {/* Sidebar content here */}
             <div className="max-w-3xl  list-a p-6 rounded-lg  ">
               <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
@@ -155,7 +126,6 @@ function CreateInvoie() {
                   placaholder="London"
                   mainName="City"
                 />
-
                 <FormInput
                   name="senderPostCode"
                   type="text"
@@ -175,18 +145,21 @@ function CreateInvoie() {
                 Bill To
               </h2>
               <FormInput
+                defaultValue={data?.clientName}
                 name="clientName"
                 type="text"
                 placaholder="Alex Grim"
                 mainName="Client’s Name"
               />
               <FormInput
+                defaultValue={data?.clientEmail}
                 name="clientEmail"
                 type="email"
                 placaholder="alexgrim@mail.com"
                 mainName="Clients Email"
               />
               <FormInput
+                defaultValue={data?.clientAddress?.street}
                 name="streetAddress"
                 type="text"
                 placaholder="84 Church Way"
@@ -195,18 +168,21 @@ function CreateInvoie() {
 
               <div className="grid grid-cols-3 gap-4 mt-4">
                 <FormInput
+                  defaultValue={data?.clientAddress?.street}
                   name="city"
                   type="text"
                   placaholder="Bradford"
                   mainName="City"
                 />
                 <FormInput
+                  defaultValue={data?.clientAddress?.postCode}
                   name="postCode"
                   type="text"
                   placaholder="BD1 9PB"
                   mainName="Post Code"
                 />
                 <FormInput
+                  defaultValue={data?.clientAddress?.country}
                   name="country"
                   type="text"
                   placaholder="United Kingdom"
@@ -217,11 +193,13 @@ function CreateInvoie() {
               {/* Invoice Date & Payment Terms */}
               <div className="grid grid-cols-2 gap-4 mt-6">
                 <FormInput
+                  defaultValue={data?.createdAt}
                   name="invoiceDate"
                   type="date"
                   mainName="Invoice Date"
                 />
                 <FormInput
+                  defaultValue={data?.paymentTerms}
                   name="paymentTerms"
                   type="text"
                   placaholder="Net 30 Days"
@@ -230,6 +208,7 @@ function CreateInvoie() {
               </div>
 
               <FormInput
+                defaultValue={data?.description}
                 name="projectDescription"
                 type="text"
                 placaholder="Graphic Design"
@@ -249,29 +228,39 @@ function CreateInvoie() {
                 items.map((item, index) => (
                   <div key={index} className="flex  gap-4">
                     <FormInput
+                      defaultValue={item?.name}
                       name="itemName"
                       type="text"
                       placeholder="Banner Design"
                       mainName="Item Name"
                     />
                     <FormInput
+                      defaultValue={item?.quantity}
                       name="qty"
                       type="number"
                       placeholder="1"
                       mainName="Qty."
                     />
                     <FormInput
+                      defaultValue={item?.price}
                       name="price"
                       type="number"
                       placeholder="156.00"
                       mainName="Price"
                     />
+                    <FormInput
+                      defaultValue={item.total}
+                      name="total"
+                      type="number"
+                      placeholder="156.00"
+                      mainName="total"
+                    />
 
                     {/* <h3 className="mb-1">Total</h3> */}
 
                     {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
-                          {}
-                        </span> */}
+                        {}
+                      </span> */}
                     <button>
                       <MdOutlineDelete
                         className="text-3xl cursor-pointer mt-7 ml-2"
@@ -288,33 +277,21 @@ function CreateInvoie() {
               >
                 + Add New Item
               </button>
-
-              {/* Buttons */}
-              <div className="pt-[30px] pb-[30px]">
-                <div className="flex justify-between mt-6">
-                  <button
-                    className="btn-bg py-2 px-6 rounded-lg"
-                    type="button"
-                    onClick={handleDiscard}
-                  >
-                    Discard
+            </div>
+            {/* Buttons */}
+            <div className="pt-[30px] pb-[30px] ">
+              <div className="flex justify-end  mt-6 sticky ">
+                <div className="flex gap-2">
+                  <button className="btn-bg py-2 px-6 rounded-lg" type="button">
+                    cancel
                   </button>
-                  <div className="flex gap-2">
-                    <button
-                      className="bg-gray-700 text-white py-2 px-6 rounded-lg "
-                      type="submit"
-                      data-status="draft"
-                    >
-                      Save as Draft
-                    </button>
-                    <button
-                      className="bg-purple-600 text-white py-2 px-6 rounded-lg"
-                      type="submit"
-                      data-status="pending"
-                    >
-                      Save & Send
-                    </button>
-                  </div>
+                  <button
+                    className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                    type="submit"
+                    data-status="pending"
+                  >
+                    Save Change
+                  </button>
                 </div>
               </div>
             </div>
@@ -325,4 +302,4 @@ function CreateInvoie() {
   );
 }
 
-export default CreateInvoie;
+export default EditInvoice;

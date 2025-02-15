@@ -1,4 +1,4 @@
-function FormInput({ name, type, placaholder, mainName }) {
+function FormInput({ name, type, placaholder, mainName, defaultValue }) {
   return (
     <div>
       <fieldset className="fieldset">
@@ -8,6 +8,7 @@ function FormInput({ name, type, placaholder, mainName }) {
           className="input rounded-sm w-full"
           placeholder={placaholder}
           name={name}
+          defaultValue={defaultValue}
         />
       </fieldset>
     </div>
