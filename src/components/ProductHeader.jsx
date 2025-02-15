@@ -52,6 +52,28 @@ function ProductHeader() {
       console.error("Xatolik:", error);
     }
   };
+  // hadnle paid
+  const handlePaid = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/data/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "paid" }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Xatolik bor ");
+      }
+      const result = await response.json();
+      setData(result);
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Xatolik:", error);
+    }
+  };
 
   return (
     <div className="align-elements flex items-center justify-between px-[32px] py-[24px] list-a rounded-lg mb-[24px]">
@@ -66,7 +88,13 @@ function ProductHeader() {
         >
           Delete
         </button>
-        <button className="btn btn-primary rounded-3xl">Mark as Paid</button>
+        {data?.status !== "paid" ? (
+          <button className="btn btn-primary rounded-3xl" onClick={handlePaid}>
+            Mark as Paid
+          </button>
+        ) : (
+          ""
+        )}
       </div>
 
       {/* Modal */}

@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NotFounded from "../components/NotFounded";
 import StatusBadge from "./StatusBadge";
-import { data, Link } from "react-router-dom";
-import { getFilterData } from "../hooks/useFetch";
+import { Link } from "react-router-dom";
 
 function InvoicesItem({ filteredData }) {
+  console.log(filteredData);
   const [data, setData] = useState();
 
   return (
-    <div className="h-[700px] overflow-y-auto">
+    <div className="h-[600px] overflow-y-auto">
       {!filteredData ? (
         <NotFounded />
       ) : (

@@ -9,7 +9,7 @@ function Home() {
 
   // const [filteredData, setFilteredData] = useState([]);
   return (
-    <div className="align-elements my-auto flex flex-col mt-[72px]  h-screen ">
+    <div className="align-elements my-auto flex flex-col pt-20  h-screen ">
       <Header setFilteredData={setFilteredData} />
       {filteredData?.length > 0 ? (
         <InvoicesItem filteredData={filteredData} />

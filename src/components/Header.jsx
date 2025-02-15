@@ -48,7 +48,9 @@ function Header({ setFilteredData }) {
     <div className="flex justify-between items-center mb-16">
       <div>
         <h1 className="text-4xl font-bold mb-2">Invoices</h1>
-        <p className="text-gray-500">There are {data?.length} total invoices</p>
+        <p className="text-gray-500">
+          There are {filtered?.length} total invoices
+        </p>
       </div>
       <div className="flex items-center gap-4">
         <div className="dropdown mr-5">
