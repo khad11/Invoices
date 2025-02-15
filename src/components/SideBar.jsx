@@ -19,7 +19,7 @@ function SideBar() {
   }, [theme]);
 
   return (
-    <div className="flex flex-col justify-between py-5 bg-slate-800 rounded-tr-3xl rounded-br-3xl w-[140px]">
+    <div className="flex flex-col justify-between pb-5 bg-slate-800 rounded-tr-3xl rounded-br-3xl ">
       <div className="w-full">
         <img src="public/logo-m.png" alt="logo" />
       </div>

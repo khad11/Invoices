@@ -3,6 +3,9 @@ import { MdOutlineDelete } from "react-icons/md";
 import FormInput from "./FormInput";
 import { getOneData } from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
+// toast
 
 function EditInvoice() {
   const { id } = useParams();
@@ -13,13 +16,32 @@ function EditInvoice() {
   const [items, setItems] = useState([]);
 
   const updateInvoice = async (e) => {
-    e.preventDefault(); // Formani default refresh qilishdan to'xtatamiz
+    e.preventDefault();
+
+    // const itemsList = Array.from(
+    //   e.target.querySelectorAll('input[name="name"]')
+    // ).map((input, index) => ({
+    //   name: input.value,
+    //   quantity: e.target.querySelectorAll('input[name="quantity"]')[index]
+    //     .value,
+    //   price: e.target.querySelectorAll('input[name="price"]')[index].value,
+    //   total: e.target.querySelectorAll('input[name="total"]')[index].value,
+    // }));
+
+    // console.log(e.target.item.name.value);
+    // console.log(e.target.city.value);
 
     const updatedData = {
       clientName: e.target.clientName.value,
       clientEmail: e.target.clientEmail.value,
+      senderAddress: {
+        street: e.target.senderStreet.value,
+        city: e.target.senderCity.value,
+        postCode: e.target.senderPostCode.value,
+        country: e.target.senderCountry.value,
+      },
       clientAddress: {
-        street: e.target.streetAddress.value,
+        street: e.target.street.value,
         city: e.target.city.value,
         postCode: e.target.postCode.value,
         country: e.target.country.value,
@@ -43,10 +65,11 @@ function EditInvoice() {
         throw new Error("Ma'lumotni yangilashda xatolik!");
       }
 
-      alert("Invoice muvaffaqiyatli yangilandi!");
+      toast.success("Invoice muvaffaqiyatli yangilandi!");
+      drawerRef.current.checked = false;
     } catch (error) {
       console.error(error);
-      alert("Xatolik yuz berdi!");
+      toast.error("Xatolik yuz berdi!");
     }
   };
 
@@ -105,197 +128,207 @@ function EditInvoice() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
-            {/* Sidebar content here */}
-            <div className="max-w-3xl  list-a p-6 rounded-lg  ">
-              <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
+          <div>
+            <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
+              {/* Sidebar content here */}
+              <div className="max-w-3xl  list-a p-6 rounded-lg  ">
+                <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
-              {/* Bill From */}
-              <h2 className="text-purple-600 font-semibold mb-2">Bill From</h2>
-              <FormInput
-                name="streetAddress"
-                type="text"
-                placaholder="19 Union Terrace"
-                mainName="Street Address"
-              />
-
-              <div className="grid grid-cols-3 gap-4 mt-4">
+                {/* Bill From */}
+                <h2 className="text-purple-600 font-semibold mb-2">
+                  Bill From
+                </h2>
                 <FormInput
-                  name="senderCity"
+                  defaultValue={data?.senderAddress?.street}
+                  name="senderStreet"
                   type="text"
-                  placaholder="London"
-                  mainName="City"
+                  mainName="Street Address"
+                />
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <FormInput
+                    defaultValue={data?.senderAddress?.city}
+                    name="senderCity"
+                    type="text"
+                    placaholder="London"
+                    mainName="City"
+                  />
+
+                  <FormInput
+                    defaultValue={data?.senderAddress?.postCode}
+                    name="senderPostCode"
+                    type="text"
+                    placaholder="E1 3EZ"
+                    mainName="Post Code"
+                  />
+                  <FormInput
+                    defaultValue={data?.senderAddress?.country}
+                    name="senderCountry"
+                    type="text"
+                    placaholder="United Kingdom"
+                    mainName="Country"
+                  />
+                </div>
+
+                {/* Bill To */}
+                <h2 className="text-purple-600 font-semibold mt-6 mb-2">
+                  Bill To
+                </h2>
+                <FormInput
+                  defaultValue={data?.clientName}
+                  name="clientName"
+                  type="text"
+                  placaholder="Alex Grim"
+                  mainName="Client’s Name"
                 />
                 <FormInput
-                  name="senderPostCode"
-                  type="text"
-                  placaholder="E1 3EZ"
-                  mainName="Post Code"
+                  defaultValue={data?.clientEmail}
+                  name="clientEmail"
+                  type="email"
+                  placaholder="alexgrim@mail.com"
+                  mainName="Clients Email"
                 />
-                <FormInput
-                  name="senderCountry"
-                  type="text"
-                  placaholder="United Kingdom"
-                  mainName="Country"
-                />
-              </div>
-
-              {/* Bill To */}
-              <h2 className="text-purple-600 font-semibold mt-6 mb-2">
-                Bill To
-              </h2>
-              <FormInput
-                defaultValue={data?.clientName}
-                name="clientName"
-                type="text"
-                placaholder="Alex Grim"
-                mainName="Client’s Name"
-              />
-              <FormInput
-                defaultValue={data?.clientEmail}
-                name="clientEmail"
-                type="email"
-                placaholder="alexgrim@mail.com"
-                mainName="Clients Email"
-              />
-              <FormInput
-                defaultValue={data?.clientAddress?.street}
-                name="streetAddress"
-                type="text"
-                placaholder="84 Church Way"
-                mainName="Street Address"
-              />
-
-              <div className="grid grid-cols-3 gap-4 mt-4">
                 <FormInput
                   defaultValue={data?.clientAddress?.street}
-                  name="city"
+                  name="street"
                   type="text"
-                  placaholder="Bradford"
-                  mainName="City"
+                  placaholder="84 Church Way"
+                  mainName="Street Address"
                 />
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <FormInput
+                    defaultValue={data?.clientAddress?.city}
+                    name="city"
+                    type="text"
+                    placaholder="Bradford"
+                    mainName="City"
+                  />
+                  <FormInput
+                    defaultValue={data?.clientAddress?.postCode}
+                    name="postCode"
+                    type="text"
+                    placaholder="BD1 9PB"
+                    mainName="Post Code"
+                  />
+                  <FormInput
+                    defaultValue={data?.clientAddress?.country}
+                    name="country"
+                    type="text"
+                    placaholder="United Kingdom"
+                    mainName="Country"
+                  />
+                </div>
+
+                {/* Invoice Date & Payment Terms */}
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <FormInput
+                    defaultValue={data?.createdAt}
+                    name="invoiceDate"
+                    type="date"
+                    mainName="Invoice Date"
+                  />
+                  <FormInput
+                    defaultValue={data?.paymentTerms}
+                    name="paymentTerms"
+                    type="text"
+                    placaholder="Net 30 Days"
+                    mainName="Payment Terms"
+                  />
+                </div>
+
                 <FormInput
-                  defaultValue={data?.clientAddress?.postCode}
-                  name="postCode"
+                  defaultValue={data?.description}
+                  name="projectDescription"
                   type="text"
-                  placaholder="BD1 9PB"
-                  mainName="Post Code"
+                  placaholder="Graphic Design"
+                  mainName="Project Description"
                 />
-                <FormInput
-                  defaultValue={data?.clientAddress?.country}
-                  name="country"
-                  type="text"
-                  placaholder="United Kingdom"
-                  mainName="Country"
-                />
-              </div>
 
-              {/* Invoice Date & Payment Terms */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
-                <FormInput
-                  defaultValue={data?.createdAt}
-                  name="invoiceDate"
-                  type="date"
-                  mainName="Invoice Date"
-                />
-                <FormInput
-                  defaultValue={data?.paymentTerms}
-                  name="paymentTerms"
-                  type="text"
-                  placaholder="Net 30 Days"
-                  mainName="Payment Terms"
-                />
-              </div>
+                {/* Item List */}
+                <h2 className="text-gray-600 font-semibold mt-6 mb-2">
+                  Item List
+                </h2>
 
-              <FormInput
-                defaultValue={data?.description}
-                name="projectDescription"
-                type="text"
-                placaholder="Graphic Design"
-                mainName="Project Description"
-              />
+                {items.length === 0 ? (
+                  <p className="text-gray-500 text-center">
+                    Item qo‘shish uchun "Add New Item" tugmasini bosing
+                  </p>
+                ) : (
+                  items.map((item, index) => (
+                    <div key={index} className="flex  gap-4">
+                      <FormInput
+                        defaultValue={item?.name}
+                        name="name"
+                        type="text"
+                        placeholder="Banner Design"
+                        mainName="Item Name"
+                      />
+                      <FormInput
+                        defaultValue={item?.quantity}
+                        name="quantity"
+                        type="number"
+                        placeholder="1"
+                        mainName="Qty."
+                      />
+                      <FormInput
+                        defaultValue={item?.price}
+                        name="price"
+                        type="number"
+                        placeholder="156.00"
+                        mainName="Price"
+                      />
+                      <FormInput
+                        defaultValue={item.total}
+                        name="total"
+                        type="number"
+                        placeholder="156.00"
+                        mainName="total"
+                      />
 
-              {/* Item List */}
-              <h2 className="text-gray-600 font-semibold mt-6 mb-2">
-                Item List
-              </h2>
+                      {/* <h3 className="mb-1">Total</h3> */}
 
-              {items.length === 0 ? (
-                <p className="text-gray-500 text-center">
-                  Item qo‘shish uchun "Add New Item" tugmasini bosing
-                </p>
-              ) : (
-                items.map((item, index) => (
-                  <div key={index} className="flex  gap-4">
-                    <FormInput
-                      defaultValue={item?.name}
-                      name="itemName"
-                      type="text"
-                      placeholder="Banner Design"
-                      mainName="Item Name"
-                    />
-                    <FormInput
-                      defaultValue={item?.quantity}
-                      name="qty"
-                      type="number"
-                      placeholder="1"
-                      mainName="Qty."
-                    />
-                    <FormInput
-                      defaultValue={item?.price}
-                      name="price"
-                      type="number"
-                      placeholder="156.00"
-                      mainName="Price"
-                    />
-                    <FormInput
-                      defaultValue={item.total}
-                      name="total"
-                      type="number"
-                      placeholder="156.00"
-                      mainName="total"
-                    />
-
-                    {/* <h3 className="mb-1">Total</h3> */}
-
-                    {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
+                      {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
                         {}
                       </span> */}
-                    <button>
-                      <MdOutlineDelete
-                        className="text-3xl cursor-pointer mt-7 ml-2"
-                        onClick={() => removeItem(index)}
-                      />
-                    </button>
-                  </div>
-                ))
-              )}
-              <button
-                className="w-full btn-blue-bg py-2 mt-4 rounded-lg"
-                type="button"
-                onClick={addNewItem}
-              >
-                + Add New Item
-              </button>
-            </div>
+                      <button>
+                        <MdOutlineDelete
+                          className="text-3xl cursor-pointer mt-7 ml-2"
+                          onClick={() => removeItem(index)}
+                        />
+                      </button>
+                    </div>
+                  ))
+                )}
+                <button
+                  className="w-full btn-blue-bg py-2 mt-4 rounded-lg"
+                  type="button"
+                  onClick={addNewItem}
+                >
+                  + Add New Item
+                </button>
+              </div>
+            </ul>
             {/* Buttons */}
             <div className="pt-[30px] pb-[30px] ">
-              <div className="flex justify-end  mt-6 sticky ">
-                <div className="flex gap-2">
-                  <button className="btn-bg py-2 px-6 rounded-lg" type="button">
-                    cancel
-                  </button>
-                  <button
-                    className="bg-purple-600 text-white py-2 px-6 rounded-lg"
-                    type="submit"
-                    data-status="pending"
-                  >
-                    Save Change
-                  </button>
-                </div>
+              <div className="flex justify-end  gap-2 mt-6 sticky bottom-0 left-0 ">
+                <button
+                  className="btn-bg py-2 px-6 rounded-lg"
+                  type="button"
+                  onClick={() => (drawerRef.current.checked = false)}
+                >
+                  cancel
+                </button>
+                <button
+                  className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                  type="submit"
+                  data-status="pending"
+                >
+                  Save Change
+                </button>
               </div>
             </div>
-          </ul>
+          </div>
         </form>
       </div>
     </div>

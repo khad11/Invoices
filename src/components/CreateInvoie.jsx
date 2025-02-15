@@ -4,6 +4,7 @@ import { objectCreater } from "../utils/object-creater";
 
 import { MdOutlineDelete } from "react-icons/md";
 import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 function CreateInvoie() {
   const drawerRef = useRef(null);
@@ -52,18 +53,6 @@ function CreateInvoie() {
     const submitter = e.nativeEvent.submitter;
     const status = submitter.dataset.status;
 
-    if (
-      !data.clientName ||
-      !data.clientEmail ||
-      !data.invoiceDate ||
-      !data.paymentTerms ||
-      !data.projectDescription ||
-      items.length === 0
-    ) {
-      alert("Iltimos, barcha maydonlarni to‘ldiring!");
-      return;
-    }
-
     const invoiceData = objectCreater({
       createdAt: new Date().toISOString().split("T")[0],
       paymentDue: data.invoiceDate,
@@ -83,6 +72,13 @@ function CreateInvoie() {
       items,
     });
 
+    if (invoiceData.senderAddress.city.trim() == "") {
+      return toast.error("sender streetni kirgizing!");
+    }
+
+    if (invoiceData.senderAddress.city.trim() == "") {
+      return toast.error("sender streetni kirgizing!");
+    }
     try {
       const response = await fetch("http://localhost:3000/data", {
         method: "POST",
@@ -97,7 +93,7 @@ function CreateInvoie() {
       }
 
       const result = await response.json();
-      console.log("Yangi Invoice qo‘shildi:", result);
+      console.log("Yangi data invoice :", result);
     } catch (error) {
       console.error("Xatolik:", error);
     }
