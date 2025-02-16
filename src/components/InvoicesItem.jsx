@@ -16,7 +16,7 @@ function InvoicesItem({ filteredData }) {
           <Link
             to={`/product/${info.id}`}
             key={info.id}
-            className="list-a rounded-lg p-6 flex  mb-4 items-center justify-between"
+            className="list-a rounded-lg p-6 flex  mb-4 items-center justify-between hover:border-purple-800"
           >
             <div className="flex items-center gap-10">
               <span className="font-bold">

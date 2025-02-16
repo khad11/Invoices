@@ -5,11 +5,13 @@ import { objectCreater } from "../utils/object-creater";
 import { MdOutlineDelete } from "react-icons/md";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { validateInput } from "../utils/validateInput";
 
 function CreateInvoie() {
   const drawerRef = useRef(null);
   const formRef = useRef(null);
   const [items, setItems] = useState([]);
+  // const [invoiceData, setInvoiceData] = useState({});
 
   // discard button
   const handleDiscard = () => {
@@ -24,14 +26,31 @@ function CreateInvoie() {
 
   // add new item button
   const addNewItem = () => {
-    setItems([...items, { name: "", qty: 1, price: 0 }]);
+    setItems([...items, { id: Date.now(), name: "", qty: 1, price: 0 }]);
   };
 
   // remove icon
-  const removeItem = (index) => {
-    const newItems = [...items];
-    newItems.splice(index, 1);
-    setItems(newItems);
+  const removeItem = (id, field, value) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
+  const updateItem = (id, field, value) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              [field]: value,
+              total:
+                field === "qty" || field === "price"
+                  ? field === "qty"
+                    ? value * item.price
+                    : item.qty * value
+                  : item.total,
+            }
+          : item
+      )
+    );
   };
 
   async function getFormData(e) {
@@ -72,13 +91,23 @@ function CreateInvoie() {
       items,
     });
 
-    if (invoiceData.senderAddress.city.trim() == "") {
-      return toast.error("sender streetni kirgizing!");
+    const errors = validateInput(invoiceData);
+    if (!errors) {
+    } else {
+      const { message, target } = errors;
+      toast.error(message);
+      e.target[target]?.focus();
+      return;
     }
+    // Validation
 
-    if (invoiceData.senderAddress.city.trim() == "") {
-      return toast.error("sender streetni kirgizing!");
-    }
+    // if (invoiceData.clientEmail == "") {
+    //   return toast.error(" client email kiritilmadi !");
+    // }
+
+    // if (invoiceData.city.trim() == "") {
+    //   return toast.error("City kiritilmadi");
+    // }
     try {
       const response = await fetch("http://localhost:3000/data", {
         method: "POST",
@@ -94,6 +123,7 @@ function CreateInvoie() {
 
       const result = await response.json();
       console.log("Yangi data invoice :", result);
+      drawerRef.current.checked = false;
     } catch (error) {
       console.error("Xatolik:", error);
     }
@@ -246,34 +276,43 @@ function CreateInvoie() {
                   </p>
                 ) : (
                   items.map((item, index) => (
-                    <div key={index} className="flex  gap-4">
-                      <FormInput
+                    <div key={index} className="flex  items-center gap-4">
+                      <input
+                        className="w-[200px] h-10"
                         name="itemName"
                         type="text"
                         placeholder="Banner Design"
-                        mainName="Item Name"
+                        onChange={(e) => {
+                          updateItem(item.id, "name", Number(e.target.value));
+                        }}
                       />
-                      <FormInput
+                      <input
+                        className="w-[200px] h-10"
                         name="qty"
                         type="number"
                         placeholder="1"
-                        mainName="Qty."
+                        onChange={(e) => {
+                          updateItem(item.id, "qty", Number(e.target.value));
+                        }}
                       />
-                      <FormInput
+                      <input
+                        className="w-[200px] h-10"
                         name="price"
                         type="number"
                         placeholder="156.00"
-                        mainName="Price"
+                        onChange={(e) => {
+                          updateItem(item.id, "price", Number(e.target.value));
+                        }}
                       />
+                      <div className="flex flex-col  gap-2 items-center justify-between p-1">
+                        <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
+                          {(item.qty * item.price).toFixed(2)}
+                        </span>
+                      </div>
 
-                      {/* <h3 className="mb-1">Total</h3> */}
-
-                      {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
-                          {}
-                        </span> */}
                       <button>
                         <MdOutlineDelete
-                          className="text-3xl cursor-pointer mt-7 ml-2"
+                          className="text-3xl cursor-pointer  ml-2"
                           onClick={() => removeItem(index)}
                         />
                       </button>
