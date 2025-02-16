@@ -1,4 +1,13 @@
-function FormInput({ name, type, placaholder, mainName, defaultValue }) {
+function FormInput({
+  name,
+  type,
+  placaholder,
+  mainName,
+  defaultValue,
+  onChange,
+  errorMessage,
+  value,
+}) {
   return (
     <div>
       <fieldset className="fieldset">
@@ -9,6 +18,7 @@ function FormInput({ name, type, placaholder, mainName, defaultValue }) {
           placeholder={placaholder}
           name={name}
           defaultValue={defaultValue}
+          onChange={onChange}
         />
       </fieldset>
     </div>

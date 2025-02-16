@@ -18,19 +18,6 @@ function EditInvoice() {
   const updateInvoice = async (e) => {
     e.preventDefault();
 
-    // const itemsList = Array.from(
-    //   e.target.querySelectorAll('input[name="name"]')
-    // ).map((input, index) => ({
-    //   name: input.value,
-    //   quantity: e.target.querySelectorAll('input[name="quantity"]')[index]
-    //     .value,
-    //   price: e.target.querySelectorAll('input[name="price"]')[index].value,
-    //   total: e.target.querySelectorAll('input[name="total"]')[index].value,
-    // }));
-
-    // console.log(e.target.item.name.value);
-    // console.log(e.target.city.value);
-
     const updatedData = {
       clientName: e.target.clientName.value,
       clientEmail: e.target.clientEmail.value,
@@ -92,13 +79,31 @@ function EditInvoice() {
 
   // add new item button
   const addNewItem = () => {
-    setItems([...items, { name: "", qty: 1, price: 0 }]);
+    setItems([...items, { id: Date.now(), name: "", qty: 1, price: 0 }]);
   };
 
-  const removeItem = (index) => {
-    const newItems = [...items];
-    newItems.splice(index, 1);
-    setItems(newItems);
+  // remove icon
+  const removeItem = (id, field, value) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
+  const updateItem = (id, field, value) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              [field]: value,
+              total:
+                field === "qty" || field === "price"
+                  ? field === "qty"
+                    ? value * item.price
+                    : item.qty * value
+                  : item.total,
+            }
+          : item
+      )
+    );
   };
 
   return (
@@ -120,7 +125,7 @@ function EditInvoice() {
         </div>
         <form
           ref={formRef}
-          className="drawer-side ml-[130px] "
+          className="drawer-side ml-[100px] "
           onSubmit={updateInvoice}
         >
           <label
@@ -129,9 +134,9 @@ function EditInvoice() {
             className="drawer-overlay"
           ></label>
           <div>
-            <ul className="menu list-a text-base-content min-h-full w-[710px] p-4">
+            <ul className=" list-a text-base-content h-full w-[720px] ">
               {/* Sidebar content here */}
-              <div className="max-w-3xl  list-a p-6 rounded-lg  ">
+              <div className="max-w-2xl  list-a p-6 rounded-lg  ">
                 <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
                 {/* Bill From */}
@@ -256,44 +261,43 @@ function EditInvoice() {
                   </p>
                 ) : (
                   items.map((item, index) => (
-                    <div key={index} className="flex  gap-4">
-                      <FormInput
-                        defaultValue={item?.name}
-                        name="name"
+                    <div key={index} className="flex  items-center gap-4">
+                      <input
+                        className="w-[200px] h-10"
+                        name="itemName"
                         type="text"
                         placeholder="Banner Design"
-                        mainName="Item Name"
+                        onChange={(e) => {
+                          updateItem(item.id, "name", Number(e.target.value));
+                        }}
                       />
-                      <FormInput
-                        defaultValue={item?.quantity}
-                        name="quantity"
+                      <input
+                        className="w-[200px] h-10"
+                        name="qty"
                         type="number"
                         placeholder="1"
-                        mainName="Qty."
+                        onChange={(e) => {
+                          updateItem(item.id, "qty", Number(e.target.value));
+                        }}
                       />
-                      <FormInput
-                        defaultValue={item?.price}
+                      <input
+                        className="w-[200px] h-10"
                         name="price"
                         type="number"
                         placeholder="156.00"
-                        mainName="Price"
+                        onChange={(e) => {
+                          updateItem(item.id, "price", Number(e.target.value));
+                        }}
                       />
-                      <FormInput
-                        defaultValue={item.total}
-                        name="total"
-                        type="number"
-                        placeholder="156.00"
-                        mainName="total"
-                      />
+                      <div className="flex flex-col  gap-2 items-center justify-between p-1">
+                        <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
+                          {(item.qty * item.price).toFixed(2)}
+                        </span>
+                      </div>
 
-                      {/* <h3 className="mb-1">Total</h3> */}
-
-                      {/* <span className="px-3 py-2 flex justify-between items-center text-gray-400">
-                        {}
-                      </span> */}
                       <button>
                         <MdOutlineDelete
-                          className="text-3xl cursor-pointer mt-7 ml-2"
+                          className="text-3xl cursor-pointer  ml-2"
                           onClick={() => removeItem(index)}
                         />
                       </button>
@@ -308,26 +312,26 @@ function EditInvoice() {
                   + Add New Item
                 </button>
               </div>
+              <div className=" sticky bottom-0  btn-button left-0 p-8  w-full ">
+                <div className="flex gap-2 justify-end  ">
+                  <button
+                    className="btn-bg py-2 px-6 rounded-lg"
+                    type="button"
+                    onClick={() => (drawerRef.current.checked = false)}
+                  >
+                    cancel
+                  </button>
+                  <button
+                    className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                    type="submit"
+                    data-status="pending"
+                  >
+                    Save Change
+                  </button>
+                </div>
+              </div>
             </ul>
             {/* Buttons */}
-            <div className="pt-[30px] pb-[30px] ">
-              <div className="flex justify-end  gap-2 mt-6 sticky bottom-0 left-0 ">
-                <button
-                  className="btn-bg py-2 px-6 rounded-lg"
-                  type="button"
-                  onClick={() => (drawerRef.current.checked = false)}
-                >
-                  cancel
-                </button>
-                <button
-                  className="bg-purple-600 text-white py-2 px-6 rounded-lg"
-                  type="submit"
-                  data-status="pending"
-                >
-                  Save Change
-                </button>
-              </div>
-            </div>
           </div>
         </form>
       </div>

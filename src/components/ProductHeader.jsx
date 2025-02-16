@@ -105,7 +105,7 @@ function ProductHeader() {
           setIsModalOpen(false);
           handleDelete();
         }}
-        invoiceId={data?.id} // `product.id` o‘rniga `data?.id`
+        invoiceId={data?.id}
       />
     </div>
   );
