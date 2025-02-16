@@ -6,12 +6,36 @@ import { MdOutlineDelete } from "react-icons/md";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { validateInput } from "../utils/validateInput";
+import { useNavigate } from "react-router-dom";
 
 function CreateInvoie() {
   const drawerRef = useRef(null);
   const formRef = useRef(null);
   const [items, setItems] = useState([]);
   // const [invoiceData, setInvoiceData] = useState({});
+  const navigate = useNavigate();
+
+  // handle reaload
+  const handleReload = () => {
+    window.location.reload();
+  };
+
+  // mathrandom id
+  const generateCustomID = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+
+    const randomLetters =
+      letters[Math.floor(Math.random() * letters.length)] +
+      letters[Math.floor(Math.random() * letters.length)];
+
+    const randomNumbers = Array.from(
+      { length: 4 },
+      () => numbers[Math.floor(Math.random() * numbers.length)]
+    ).join("");
+
+    return `${randomLetters}${randomNumbers}`;
+  };
 
   // discard button
   const handleDiscard = () => {
@@ -73,6 +97,7 @@ function CreateInvoie() {
     const status = submitter.dataset.status;
 
     const invoiceData = objectCreater({
+      id: generateCustomID(),
       createdAt: new Date().toISOString().split("T")[0],
       paymentDue: data.invoiceDate,
       description: data.projectDescription,
@@ -124,6 +149,8 @@ function CreateInvoie() {
       const result = await response.json();
       console.log("Yangi data invoice :", result);
       drawerRef.current.checked = false;
+      // handleReload();
+      navigate("/");
     } catch (error) {
       console.error("Xatolik:", error);
     }
@@ -142,18 +169,21 @@ function CreateInvoie() {
         <div className="drawer-content">
           <label
             htmlFor="my-drawer"
-            className="btn bg-[#7C5DFA] hover:bg-[#6349ca] text-white w-40 rounded-full flex justify-between pl-2 pr-6 drawer-button"
+            className="btn bg-[#7C5DFA] hover:bg-[#6349ca] text-white rounded-full flex justify-start gap-3 pl-2 pr-6 drawer-button"
           >
             <span className="rounded-full w-6 h-6 bg-white">
               <CiCirclePlus className="w-full h-full text-[#7C5DFA] font-bold" />
             </span>
-            <p> New Invoice</p>
+            <div className="flex gap-2 text-lg">
+              <span>New</span>
+              <span className="hidden lg:block">Invoice</span>
+            </div>
           </label>
         </div>
         <form
           ref={formRef}
           onSubmit={getFormData}
-          className="drawer-side ml-[103px]"
+          className="drawer-side md:ml-[103px]"
         >
           <label
             htmlFor="my-drawer"
@@ -161,7 +191,7 @@ function CreateInvoie() {
             className="drawer-overlay"
           ></label>
 
-          <ul className="list-a text-base-content h-full w-[720px]">
+          <ul className="list-a text-base-content h-full ">
             <div>
               <div className=" list-a p-6  ">
                 <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
@@ -276,9 +306,12 @@ function CreateInvoie() {
                   </p>
                 ) : (
                   items.map((item, index) => (
-                    <div key={index} className="flex  items-center gap-4">
+                    <div
+                      key={index}
+                      className="flex flex-col md:flex-row    md:gap-4 gap-3"
+                    >
                       <input
-                        className="w-[200px] h-10"
+                        className=" h-10"
                         name="itemName"
                         type="text"
                         placeholder="Banner Design"
@@ -286,36 +319,43 @@ function CreateInvoie() {
                           updateItem(item.id, "name", Number(e.target.value));
                         }}
                       />
-                      <input
-                        className="w-[200px] h-10"
-                        name="qty"
-                        type="number"
-                        placeholder="1"
-                        onChange={(e) => {
-                          updateItem(item.id, "qty", Number(e.target.value));
-                        }}
-                      />
-                      <input
-                        className="w-[200px] h-10"
-                        name="price"
-                        type="number"
-                        placeholder="156.00"
-                        onChange={(e) => {
-                          updateItem(item.id, "price", Number(e.target.value));
-                        }}
-                      />
-                      <div className="flex flex-col  gap-2 items-center justify-between p-1">
-                        <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
-                          {(item.qty * item.price).toFixed(2)}
-                        </span>
-                      </div>
-
-                      <button>
-                        <MdOutlineDelete
-                          className="text-3xl cursor-pointer  ml-2"
-                          onClick={() => removeItem(index)}
+                      <div className=" flex ">
+                        <input
+                          className=" h-10 mb-3"
+                          name="qty"
+                          type="number"
+                          placeholder="1"
+                          onChange={(e) => {
+                            updateItem(item.id, "qty", Number(e.target.value));
+                          }}
                         />
-                      </button>
+                        <input
+                          className=" h-10"
+                          name="price"
+                          type="number"
+                          placeholder="156.00"
+                          onChange={(e) => {
+                            updateItem(
+                              item.id,
+                              "price",
+                              Number(e.target.value)
+                            );
+                          }}
+                        />
+
+                        <div className="flex flex-col  gap-2 items-center justify-between p-1">
+                          <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
+                            {(item.qty * item.price).toFixed(2)}
+                          </span>
+                        </div>
+
+                        <button>
+                          <MdOutlineDelete
+                            className="text-3xl cursor-pointer  ml-2"
+                            onClick={() => removeItem(index)}
+                          />
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}
@@ -331,7 +371,7 @@ function CreateInvoie() {
               <div className="sticky bottom-0  btn-button left-0 p-8 w-full">
                 <div className="flex justify-between mt-6">
                   <button
-                    className="btn-bg py-2 px-6 rounded-lg"
+                    className="btn-bg  py-2 px-6 text-[12px] md:text-[18pxl]  rounded-lg"
                     type="button"
                     onClick={handleDiscard}
                   >
@@ -339,14 +379,14 @@ function CreateInvoie() {
                   </button>
                   <div className="flex gap-2">
                     <button
-                      className="bg-gray-700 text-white py-2 px-6 rounded-lg "
+                      className="bg-gray-700 text-[12px] md:text-[18px] text-white py-2 px-6 rounded-lg "
                       type="submit"
                       data-status="draft"
                     >
                       Save as Draft
                     </button>
                     <button
-                      className="bg-purple-600 text-white py-2 px-6 rounded-lg"
+                      className="bg-purple-600 text-[12px] md:text-[18px] text-white py-2 px-6 rounded-lg"
                       type="submit"
                       data-status="pending"
                     >

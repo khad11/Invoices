@@ -16,9 +16,9 @@ function InvoicesItem({ filteredData }) {
           <Link
             to={`/product/${info.id}`}
             key={info.id}
-            className="list-a rounded-lg p-6 flex  mb-4 items-center justify-between hover:border-purple-800"
+            className="list-a rounded-lg p-6 flex  mb-4 items-center justify-between shadow-lg "
           >
-            <div className="flex items-center gap-10">
+            <div className="flex flex-col gap-2 md:flex-row md:gap-10 md:items-center  ">
               <span className="font-bold">
                 <span className="text-gray-400">#</span>
                 <span>{info.id}</span>
@@ -26,7 +26,7 @@ function InvoicesItem({ filteredData }) {
               <span className="font-normal"> Due {info.paymentDue}</span>
               <span className="font-medium">{info.clientName}</span>
             </div>
-            <div className="flex items-center gap-6">
+            <div className=" flex flex-col gap-3    md:flex-row md:items-center md:gap-6">
               <span className="text-xl font-bold h-[24px]">£ {info.total}</span>
               <StatusBadge status={info.status} />
             </div>

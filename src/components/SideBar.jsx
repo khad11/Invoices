@@ -19,11 +19,11 @@ function SideBar() {
   }, [theme]);
 
   return (
-    <div className="flex flex-col justify-between pb-5 bg-slate-800 rounded-tr-3xl rounded-br-3xl ">
+    <div className="bg-slate-800 flex justify-between h-[103px] w-full  md:h-screen md:w-[103px] md:rounded-br-3xl md:rounded-tr-3xl  md:flex md:flex-col md:justify-between  ">
       <div className="w-full">
         <img src="public/logo-m.png" alt="logo" />
       </div>
-      <div className="flex flex-col gap-2 items-center ">
+      <div className="flex items-center gap-5 md:flex md:flex-col md:gap-5 md:items-center ">
         <label className="swap swap-rotate">
           {/* this hidden checkbox controls the state */}
           <input
@@ -39,14 +39,18 @@ function SideBar() {
           {/* moon icon */}
           <IoMoonOutline className=" swap-off h-[20px] w-[20px] fill-current text-amber-50" />
         </label>
-        <span className="h-[1px] w-[100px] block bg-amber-100 my-5"></span>
+        <span className="h-[103px] w-[1px] md:h-[1px] md:w-[103px] bg-slate-500 "></span>
         <div
           tabIndex={0}
           role="button"
           className="btn btn-ghost btn-circle avatar"
         >
-          <div className="w-[40px] h-[40px] rounded-full">
-            <img alt="Tailwind CSS Navbar component" src="public/Oval.png" />
+          <div className=" ">
+            <img
+              alt="Tailwind CSS Navbar component"
+              src="public/Oval.png"
+              className="w-10 h-10 mr-5 md:mr-5  md:mb-5 "
+            />
           </div>
         </div>
       </div>

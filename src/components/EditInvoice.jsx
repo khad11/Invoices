@@ -15,6 +15,10 @@ function EditInvoice() {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
 
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   const updateInvoice = async (e) => {
     e.preventDefault();
 
@@ -54,6 +58,7 @@ function EditInvoice() {
 
       toast.success("Invoice muvaffaqiyatli yangilandi!");
       drawerRef.current.checked = false;
+      handleReload();
     } catch (error) {
       console.error(error);
       toast.error("Xatolik yuz berdi!");
@@ -81,6 +86,7 @@ function EditInvoice() {
   const addNewItem = () => {
     setItems([...items, { id: Date.now(), name: "", qty: 1, price: 0 }]);
   };
+  console.log(items);
 
   // remove icon
   const removeItem = (id, field, value) => {
@@ -93,13 +99,11 @@ function EditInvoice() {
         item.id === id
           ? {
               ...item,
-              [field]: value,
+              [field]: Number(value),
               total:
-                field === "qty" || field === "price"
-                  ? field === "qty"
-                    ? value * item.price
-                    : item.qty * value
-                  : item.total,
+                field === "qty"
+                  ? Number(value) * item.price
+                  : item.qty * Number(value),
             }
           : item
       )
@@ -125,7 +129,7 @@ function EditInvoice() {
         </div>
         <form
           ref={formRef}
-          className="drawer-side ml-[100px] "
+          className="drawer-side ml-0 lg:ml-[100px] "
           onSubmit={updateInvoice}
         >
           <label
@@ -134,9 +138,9 @@ function EditInvoice() {
             className="drawer-overlay"
           ></label>
           <div>
-            <ul className=" list-a text-base-content h-full w-[720px] ">
+            <ul className=" list-a text-base-content h-full  ">
               {/* Sidebar content here */}
-              <div className="max-w-2xl  list-a p-6 rounded-lg  ">
+              <div className="  list-a p-6 rounded-lg  ">
                 <h1 className="text-2xl font-bold mb-6">New Invoice</h1>
 
                 {/* Bill From */}
@@ -261,46 +265,52 @@ function EditInvoice() {
                   </p>
                 ) : (
                   items.map((item, index) => (
-                    <div key={index} className="flex  items-center gap-4">
+                    <div
+                      key={index}
+                      className="flex flex-col md:flex-row    md:gap-4 gap-3"
+                    >
                       <input
-                        className="w-[200px] h-10"
+                        className=" h-10"
                         name="itemName"
                         type="text"
                         placeholder="Banner Design"
                         onChange={(e) => {
-                          updateItem(item.id, "name", Number(e.target.value));
+                          updateItem(item.id, "itemName", e.target.value);
                         }}
                       />
-                      <input
-                        className="w-[200px] h-10"
-                        name="qty"
-                        type="number"
-                        placeholder="1"
-                        onChange={(e) => {
-                          updateItem(item.id, "qty", Number(e.target.value));
-                        }}
-                      />
-                      <input
-                        className="w-[200px] h-10"
-                        name="price"
-                        type="number"
-                        placeholder="156.00"
-                        onChange={(e) => {
-                          updateItem(item.id, "price", Number(e.target.value));
-                        }}
-                      />
-                      <div className="flex flex-col  gap-2 items-center justify-between p-1">
-                        <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
-                          {(item.qty * item.price).toFixed(2)}
-                        </span>
-                      </div>
-
-                      <button>
-                        <MdOutlineDelete
-                          className="text-3xl cursor-pointer  ml-2"
-                          onClick={() => removeItem(index)}
+                      <div className=" flex ">
+                        <input
+                          className=" h-10 mb-3"
+                          name="qty"
+                          type="number"
+                          placeholder="1"
+                          onChange={(e) => {
+                            updateItem(item.id, "qty", e.target.value);
+                          }}
                         />
-                      </button>
+                        <input
+                          className=" h-10"
+                          name="price"
+                          type="number"
+                          placeholder="156.00"
+                          onChange={(e) => {
+                            updateItem(item.id, "price", e.target.value);
+                          }}
+                        />
+
+                        <div className="flex flex-col  gap-2 items-center justify-between p-1">
+                          <span className="text-xl font-bold p-2 w-16  overflow-y-scroll">
+                            {(item.qty * item.price).toFixed(2)}
+                          </span>
+                        </div>
+
+                        <button>
+                          <MdOutlineDelete
+                            className="text-3xl cursor-pointer  ml-2"
+                            onClick={() => removeItem(index)}
+                          />
+                        </button>
+                      </div>
                     </div>
                   ))
                 )}

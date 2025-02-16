@@ -76,11 +76,11 @@ function ProductHeader() {
   };
 
   return (
-    <div className="align-elements flex items-center justify-between px-[32px] py-[24px] list-a rounded-lg mb-[24px]">
-      <div className="flex gap-2 items-center">
+    <div className="align-elements flex items-center justify-between px-[32px] py-[24px] list-a rounded-lg mb-[24px] ">
+      <div className="hidden  md:flex md:gap-2 md:items-center">
         status: <StatusBadge status={data?.status} />
       </div>
-      <div className="flex gap-[8px]">
+      <div className="flex justify-end w-full gap-5  md:gap-[8px]">
         <EditInvoice />
         <button
           className="btn btn-error rounded-3xl"

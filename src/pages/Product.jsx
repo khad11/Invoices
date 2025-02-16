@@ -51,14 +51,17 @@ function Product() {
 
         <ProductHeader />
 
-        <div className="w-full list-a">
+        <div className="w-full list-a h-[450px] overflow-y-auto">
           <div className="rounded-lg p-8">
-            <div className="grid grid-cols-2 gap-8 mb-12">
+            <div className="flex flex-col gap-5  lg:grid lg:grid-cols-2 lg:gap-8 lg:mb-12">
               <div>
-                <h1 className="text-2xl font-bold">{data.id}</h1>
+                <h1 className="text-2xl font-bold">
+                  <span className="text-c">#</span>
+                  {data.id}
+                </h1>
                 <p>{data.description}</p>
               </div>
-              <div className="text-right">
+              <div className="lg:text-right text-left mb-[32px]">
                 <p>{data.senderAddress?.street}</p>
                 <p>{data.senderAddress?.city}</p>
                 <p>{data.senderAddress?.postCode}</p>
@@ -66,30 +69,36 @@ function Product() {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 mb-12">
-              <div>
-                <h2 className="text-c">Invoice Date</h2>
-                <p className="text-xl font-bold">{data.paymentDue}</p>
+            <div className="grid grid-cols-2 gap-[35px] lg:grid-cols-3 lg:gap-8lg:mb-12">
+              <div className="flex flex-col gap-8">
+                <div>
+                  <h2 className="text-c mb-2">Invoice Date</h2>
+                  <p className="text-xl font-bold">{data.createdAt}</p>
+                </div>
+                <div>
+                  <h2 className="text-c mb-2">Payment Due</h2>
+                  <p className="text-xl font-bold">{data.paymentTerms} days</p>
+                </div>
               </div>
               <div>
-                <h2 className="mb-2 text-c">Bill To</h2>
+                <h2 className="text-c mb-2">Bill To</h2>
                 <p className="text-xl font-bold mb-2">{data.clientName}</p>
-                <div className="text-c">
-                  <p>{data.clientAddress?.street}</p>
-                  <p>{data.clientAddress?.city}</p>
-                  <p>{data.clientAddress?.postCode}</p>
-                  <p>{data.clientAddress?.country}</p>
+                <div className="text-c-600">
+                  <p>{data.clientAddress.street}</p>
+                  <p>{data.clientAddress.city}</p>
+                  <p>{data.clientAddress.postCode}</p>
+                  <p>{data.clientAddress.country}</p>
                 </div>
               </div>
               <div>
                 <h2 className="text-c mb-2">Sent to</h2>
-                <p className="text-xl font-bold">{data.clientEmail}</p>
+                <p className="text-sm font-bold">{data.clientEmail}</p>
               </div>
             </div>
 
-            <div className="rounded-lg p-8 mb-8">
+            <div className="rounded-lg p-0 lg:p-8 lg:mb-8">
               <table className="w-full">
-                <thead>
+                <thead className="hidden md:block">
                   <tr className="text-c">
                     <th className="text-left">Item Name</th>
                     <th className="text-center">QTY.</th>
@@ -101,16 +110,21 @@ function Product() {
                   {data.items?.map((item, index) => (
                     <tr key={index}>
                       <td className="py-4 font-bold">{item.name}</td>
-                      <td className="text-center text-c">{item.quantity}</td>
-                      <td className="text-right text-c">{item.price}</td>
-                      <td className="text-right font-bold">{item.total}</td>
+                      <td className="text-left lg:text-center text-c">
+                        {item.quantity}
+                      </td>
+                      <td className=" text-left lg:text-right text-c">
+                        {item.price}$
+                      </td>
+
+                      <td className="text-right font-bold">{item.total}$</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <div className="bg-gray-900 text-white rounded-lg p-8 flex justify-between items-center">
+            <div className="bg-gray-900 text-white rounded-lg p-6 lg:p-8 flex justify-between items-center">
               <span className="text-lg">Amount Due</span>
               <span className="text-3xl font-bold">{data.total}</span>
             </div>

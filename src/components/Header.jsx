@@ -45,17 +45,20 @@ function Header({ setFilteredData }) {
   };
 
   return (
-    <div className="flex justify-between items-center mb-16">
+    <div className="flex  justify-between items-center mb-16 md:mb-10">
       <div>
-        <h1 className="text-4xl font-bold mb-2">Invoices</h1>
-        <p className="text-gray-500">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
+          Invoices
+        </h1>
+        <p className="text-gray-500 hidden md:flex">
           There are {filtered?.length} total invoices
         </p>
+        <p className="text-gray-500 md:hidden">{filtered?.length} invoices</p>
       </div>
       <div className="flex items-center gap-4">
-        <div className="dropdown mr-5">
+        <div className="  dropdown md:mr-2 lg:mr-5 ">
           <div tabIndex={0} className="flex items-center m-1">
-            <h1>Filter by status</h1>
+            <h1>Filter </h1>
             <IoIosArrowDropdown className="ml-3" />
           </div>
           <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">

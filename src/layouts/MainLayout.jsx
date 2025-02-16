@@ -4,7 +4,7 @@ import { Navbar, SideBar } from "../components";
 function MainLayout() {
   return (
     <>
-      <div className="flex gap-4 all-bg  h-[100vh]   ">
+      <div className=" all-bg  h-[100vh]  md:flex ">
         <SideBar />
         {/* <Navbar /> */}
         <main className="w-full ">
